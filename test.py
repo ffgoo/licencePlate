@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import pytesseract
 
 plt.style.use('dark_background')
-img_ori = cv2.imread("10.png")
+img_ori = cv2.imread("1.jpg")
 height,width, channel = img_ori.shape
 gray = cv2.cvtColor(img_ori, cv2.COLOR_BGR2GRAY)
 
