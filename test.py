@@ -2,9 +2,14 @@ import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 import pytesseract
+from PIL import Image
+
+
+
+
 
 plt.style.use('dark_background')
-img_ori = cv2.imread("1.jpg")
+img_ori = cv2.imread("12.png")
 height,width, channel = img_ori.shape
 gray = cv2.cvtColor(img_ori, cv2.COLOR_BGR2GRAY)
 
@@ -47,11 +52,11 @@ temp_result = np.zeros((height, width, channel), dtype=np.uint8)
 
 cv2.drawContours(temp_result, contours=contours, contourIdx=-1, color=(255, 255, 255))
 
-plt.figure(figsize=(12, 10))
-plt.imshow(temp_result, cmap='gray')
-plt.show()
-result = pytesseract.image_to_string(temp_result, lang='kor')
-print("result" + result)
+# plt.figure(figsize=(12, 10))
+# plt.imshow(temp_result, cmap='gray')
+# plt.show()
+# result = pytesseract.image_to_string(temp_result, lang='kor')
+# print("result" + result)
 
 
 
@@ -280,30 +285,34 @@ for i, plate_img in enumerate(plate_imgs):
     _, img_result = cv2.threshold(img_result, thresh=0.0, maxval=255.0, type=cv2.THRESH_BINARY | cv2.THRESH_OTSU)
     img_result = cv2.copyMakeBorder(img_result, top=10, bottom=10, left=10, right=10, borderType=cv2.BORDER_CONSTANT, value=(0,0,0))
 
+    image = Image.fromarray(img_result)
 
     # plt.subplot(len(plate_imgs), 1, i+1)
     # plt.imshow(img_result, cmap='gray')
     # plt.show()
 
+    # chars = pytesseract.image_to_string(img_result, lang='kor', config='--psm 7 --oem 0')
 
 
-    chars = pytesseract.image_to_string(img_result, lang='kor', config='--psm 7 --oem 0')
-
-    result_chars = ''
-    has_digit = False
-    for c in chars:
-        if ord('가') <= ord(c) <= ord('힣') or c.isdigit():
-            if c.isdigit():
-                has_digit = True
-            result_chars += c
 
 
-    print(result_chars)
-    plate_chars.append(result_chars)
 
-
-    if has_digit and len(result_chars) > longest_text:
-        longest_idx = i
+    #
+    # result_chars = ''
+    # has_digit = False
+    # for c in chars:
+    #     if ord('가') <= ord(c) <= ord('힣') or c.isdigit():
+    #         if c.isdigit():
+    #             has_digit = True
+    #         result_chars += c
+    #
+    #
+    # print(result_chars)
+    # plate_chars.append(result_chars)
+    #
+    #
+    # if has_digit and len(result_chars) > longest_text:
+    #     longest_idx = i
 
     # plt.subplot(len(plate_imgs), 1, i+1)
     # plt.imshow(img_result, cmap='gray')
